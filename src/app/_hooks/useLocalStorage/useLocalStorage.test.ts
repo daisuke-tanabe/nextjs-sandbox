@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '@/app/_hooks';
 
 describe('useLocalStorage', () => {
   beforeEach(() => {
@@ -7,7 +7,7 @@ describe('useLocalStorage', () => {
     jest.clearAllMocks();
   });
 
-  it('デフォルト値のnullとローディング完了を返す', () => {
+  it('デフォルト値のnullとローディング完了を返却する', () => {
     const { result } = renderHook(() => useLocalStorage('testKey'));
     expect(result.current.data).toBeNull();
     expect(result.current.isLoading).toBe(false);
@@ -40,13 +40,13 @@ describe('useLocalStorage', () => {
     });
   });
 
-  it('localStorageに普通の文字列が設定されていたら文字列で取得する', async () => {
-    localStorage.setItem('testKey', 'invalidJSON');
+  it('localStorageに壊れたJSON文字列が設定されていたらデフォルト値を返却する', async () => {
+    localStorage.setItem('testKey', '{"key"}');
 
     const { result } = renderHook(() => useLocalStorage('testKey'));
 
     await waitFor(() => {
-      expect(result.current.data).toBe('invalidJSON');
+      expect(result.current.data).toBeNull();
       expect(result.current.isLoading).toBe(false);
     });
   });

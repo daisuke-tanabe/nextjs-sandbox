@@ -23,12 +23,7 @@ export function useLocalStorage<TValue>(key: string, defaultValue: Data<TValue> 
         const parsed = JSON.parse(storedValue) as TValue;
         setData(parsed);
       } catch (error: unknown) {
-        // ローカルストレージから取得した値が文字列ならそのままセットする
-        if (typeof storedValue === 'string') {
-          setData(storedValue as TValue);
-        } else {
-          console.error(error);
-        }
+        console.error(error);
       }
     }
 
