@@ -3,7 +3,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {fetcher} from "@/lib";
 
-export function Client() {
+export function ClientComponent() {
   const { data, isPending, isError, error } = useQuery<{ status: string; method: string; }>({
     queryKey: ["test"],
     queryFn: () => fetcher.get<{ status: string; method: string; }>("/test")
