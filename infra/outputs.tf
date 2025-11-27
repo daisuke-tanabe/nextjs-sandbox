@@ -17,3 +17,8 @@ output "website_url" {
   description = "静的サイトのURL"
   value       = "http://${aws_s3_bucket_website_configuration.static_site.website_endpoint}"
 }
+
+output "github_actions_role_arn" {
+  description = "GitHub Actions用IAMロールのARN（GitHub Secretsに設定）"
+  value       = aws_iam_role.github_actions.arn
+}

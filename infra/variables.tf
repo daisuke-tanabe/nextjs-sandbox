@@ -10,6 +10,11 @@ variable "aws_region" {
   default     = "ap-northeast-1"
 }
 
+variable "project_name" {
+  description = "プロジェクト名（リソース命名に使用）"
+  type        = string
+}
+
 variable "bucket_name" {
   description = "S3バケット名"
   type        = string
@@ -21,8 +26,13 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "build_output_dir" {
-  description = "アップロードするビルド成果物のディレクトリパス"
+variable "github_repository" {
+  description = "GitHubリポジトリ（owner/repo 形式）"
   type        = string
-  default     = "../out"
+}
+
+variable "create_oidc_provider" {
+  description = "OIDC Providerを新規作成するかどうか（既に存在する場合はfalse）"
+  type        = bool
+  default     = true
 }
