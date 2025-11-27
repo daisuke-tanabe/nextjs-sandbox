@@ -8,14 +8,19 @@ output "bucket_arn" {
   value       = aws_s3_bucket.static_site.arn
 }
 
-output "website_endpoint" {
-  description = "静的サイトのエンドポイントURL"
-  value       = aws_s3_bucket_website_configuration.static_site.website_endpoint
+output "cloudfront_distribution_id" {
+  description = "CloudFrontディストリビューションID"
+  value       = aws_cloudfront_distribution.static_site.id
+}
+
+output "cloudfront_domain_name" {
+  description = "CloudFrontドメイン名"
+  value       = aws_cloudfront_distribution.static_site.domain_name
 }
 
 output "website_url" {
-  description = "静的サイトのURL"
-  value       = "http://${aws_s3_bucket_website_configuration.static_site.website_endpoint}"
+  description = "静的サイトのURL（CloudFront経由）"
+  value       = "https://${aws_cloudfront_distribution.static_site.domain_name}"
 }
 
 output "github_actions_role_arn" {

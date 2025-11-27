@@ -11,3 +11,9 @@ github_repository = "your-username/nextjs-sandbox"  # GitHubリポジトリ（ow
 # OIDC Providerが既に存在する場合はfalse
 # 同じAWSアカウントで複数プロジェクトがある場合、2つ目以降はfalseに
 create_oidc_provider = true
+
+# CloudFrontプライスクラス
+# PriceClass_All: 全リージョン
+# PriceClass_200: アジア・北米・欧州
+# PriceClass_100: 北米・欧州のみ
+cloudfront_price_class = "PriceClass_200"

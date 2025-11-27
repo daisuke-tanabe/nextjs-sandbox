@@ -29,4 +29,5 @@ terraform apply
 # GitHub リポジトリの Secrets に追加
 AWS_ROLE_ARN: terraform output github_actions_role_arn の出力値
 S3_BUCKET_NAME: terraform output bucket_name の出力値
+CLOUDFRONT_DISTRIBUTION_ID: terraform output cloudfront_distribution_id の出力値
 ```

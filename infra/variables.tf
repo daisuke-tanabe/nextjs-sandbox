@@ -36,3 +36,9 @@ variable "create_oidc_provider" {
   type        = bool
   default     = true
 }
+
+variable "cloudfront_price_class" {
+  description = "CloudFrontのプライスクラス"
+  type        = string
+  default     = "PriceClass_200" # アジア・北米・欧州
+}
