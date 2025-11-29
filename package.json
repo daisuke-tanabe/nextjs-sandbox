@@ -6,13 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint-fix": "eslint --fix"
   },
   "dependencies": {
     "@tanstack/react-query": "5.90.11",
     "next": "16.0.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.17",
