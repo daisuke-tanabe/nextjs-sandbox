@@ -2,7 +2,7 @@
 
 ## docs
 
-- docs @/docs/**/*.md
+- docs @/docs/\*_/_.md
 
 ## terraform
 
