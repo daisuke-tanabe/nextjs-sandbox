@@ -1,1 +1,1 @@
-export * from './CustomQueryClientProvider';
+export * from "./CustomQueryClientProvider";

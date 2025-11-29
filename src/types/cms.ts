@@ -6,11 +6,11 @@ type Content = {
   revisedAt: string;
   title: string;
   content: string;
-}
+};
 
 export type CmsGetPostsResult = {
   contents: Content[];
   totalCount: number;
   offset: number;
   limit: number;
-}
+};

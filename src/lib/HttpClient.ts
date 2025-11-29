@@ -1,9 +1,9 @@
-type Options = Omit<RequestInit, 'method' | 'body'>;
+type Options = Omit<RequestInit, "method" | "body">;
 
 export class HttpClient {
   constructor(
     private baseUrl: string,
-    private defaultOptions?: Options
+    private defaultOptions?: Options,
   ) {}
 
   private mergeOptions(options?: Options): Options {
@@ -19,7 +19,7 @@ export class HttpClient {
 
   async get<Result>(path: string, options?: Options): Promise<Result> {
     const res = await fetch(`${this.baseUrl}${path}`, {
-      method: 'GET',
+      method: "GET",
       ...this.mergeOptions(options),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -29,9 +29,9 @@ export class HttpClient {
   async post<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
     const merged = this.mergeOptions(options);
     const res = await fetch(`${this.baseUrl}${path}`, {
-      method: 'POST',
+      method: "POST",
       ...merged,
-      headers: { 'Content-Type': 'application/json', ...merged.headers },
+      headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -41,9 +41,9 @@ export class HttpClient {
   async put<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
     const merged = this.mergeOptions(options);
     const res = await fetch(`${this.baseUrl}${path}`, {
-      method: 'PUT',
+      method: "PUT",
       ...merged,
-      headers: { 'Content-Type': 'application/json', ...merged.headers },
+      headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -53,9 +53,9 @@ export class HttpClient {
   async patch<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
     const merged = this.mergeOptions(options);
     const res = await fetch(`${this.baseUrl}${path}`, {
-      method: 'PATCH',
+      method: "PATCH",
       ...merged,
-      headers: { 'Content-Type': 'application/json', ...merged.headers },
+      headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -64,7 +64,7 @@ export class HttpClient {
 
   async delete<Result>(path: string, options?: Options): Promise<Result> {
     const res = await fetch(`${this.baseUrl}${path}`, {
-      method: 'DELETE',
+      method: "DELETE",
       ...this.mergeOptions(options),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
