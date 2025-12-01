@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { Separator } from "@/components/primitive";
 import { cmsApi } from "@/lib/server";
 import { type CmsGetPostResult, type CmsGetPostsResult } from "@/types";
 
@@ -44,8 +45,8 @@ export default async function PostPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <article>
-        <header className="mb-8 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-          <time className="text-sm text-neutral-500 dark:text-neutral-400">
+        <header className="mb-8 pb-8">
+          <time className="text-sm text-muted-foreground">
             {new Date(post.publishedAt).toLocaleDateString("ja-JP", {
               year: "numeric",
               month: "long",
@@ -53,10 +54,10 @@ export default async function PostPage({ params }: Props) {
             })}
           </time>
           <h1 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">{post.title}</h1>
-          {post.description && (
-            <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">{post.description}</p>
-          )}
+          {post.description && <p className="mt-4 text-lg text-muted-foreground">{post.description}</p>}
         </header>
+
+        <Separator className="mb-8" />
 
         <div
           className="prose prose-neutral dark:prose-invert max-w-none"
@@ -64,10 +65,12 @@ export default async function PostPage({ params }: Props) {
         />
       </article>
 
-      <footer className="mt-12 border-t border-neutral-200 pt-8 dark:border-neutral-800">
+      <Separator className="my-8" />
+
+      <footer>
         <Link
           href="/posts"
-          className="inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
         >
           ← 記事一覧に戻る
         </Link>

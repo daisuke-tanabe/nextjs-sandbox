@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/primitive";
 import { cmsApi } from "@/lib/server";
 import { type CmsGetPostsResult } from "@/types";
 
@@ -29,22 +30,21 @@ export default async function HomePage() {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <article
-              key={post.id}
-              className="group rounded-lg border border-neutral-200 p-6 transition-colors hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700"
-            >
-              <Link href={`/posts/${post.id}`}>
-                <time className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {new Date(post.publishedAt).toLocaleDateString("ja-JP")}
-                </time>
-                <h3 className="mt-2 text-lg font-semibold group-hover:text-neutral-600 dark:group-hover:text-neutral-300">
-                  {post.title}
-                </h3>
+            <Link key={post.id} href={`/posts/${post.id}`}>
+              <Card className="group h-full transition-colors hover:border-neutral-300 dark:hover:border-neutral-700">
+                <CardHeader className="gap-1">
+                  <time className="text-sm text-muted-foreground">
+                    {new Date(post.publishedAt).toLocaleDateString("ja-JP")}
+                  </time>
+                  <CardTitle className="text-lg group-hover:text-muted-foreground">{post.title}</CardTitle>
+                </CardHeader>
                 {post.description && (
-                  <p className="mt-2 line-clamp-2 text-sm text-neutral-600 dark:text-neutral-400">{post.description}</p>
+                  <CardContent>
+                    <CardDescription className="line-clamp-2">{post.description}</CardDescription>
+                  </CardContent>
                 )}
-              </Link>
-            </article>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>

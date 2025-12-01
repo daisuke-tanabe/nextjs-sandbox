@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
 
+import { Separator } from "@/components/primitive";
 import { cmsApi } from "@/lib/server";
 import { type CmsGetPostsResult } from "@/types";
 
@@ -20,27 +21,21 @@ export default async function PostsPage() {
       </header>
 
       <div className="grid gap-8">
-        {posts.map((post) => (
-          <article
-            key={post.id}
-            className="group border-b border-neutral-200 pb-8 last:border-0 dark:border-neutral-800"
-          >
+        {posts.map((post, index) => (
+          <article key={post.id} className="group">
             <Link href={`/posts/${post.id}`} className="block">
-              <time className="text-sm text-neutral-500 dark:text-neutral-400">
+              <time className="text-sm text-muted-foreground">
                 {new Date(post.publishedAt).toLocaleDateString("ja-JP", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
               </time>
-              <h2 className="mt-2 text-xl font-semibold group-hover:text-neutral-600 dark:group-hover:text-neutral-300">
-                {post.title}
-              </h2>
-              {post.description && <p className="mt-3 text-neutral-600 dark:text-neutral-400">{post.description}</p>}
-              <span className="mt-4 inline-block text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                続きを読む →
-              </span>
+              <h2 className="mt-2 text-xl font-semibold group-hover:text-muted-foreground">{post.title}</h2>
+              {post.description && <p className="mt-3 text-muted-foreground">{post.description}</p>}
+              <span className="mt-4 inline-block text-sm font-medium">続きを読む →</span>
             </Link>
+            {index < posts.length - 1 && <Separator className="mt-8" />}
           </article>
         ))}
       </div>
