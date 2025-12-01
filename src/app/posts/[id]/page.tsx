@@ -68,10 +68,7 @@ export default async function PostPage({ params }: Props) {
       <Separator className="my-8" />
 
       <footer>
-        <Link
-          href="/posts"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
-        >
+        <Link href="/posts" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
           ← 記事一覧に戻る
         </Link>
       </footer>
