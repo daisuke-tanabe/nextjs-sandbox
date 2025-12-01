@@ -4,8 +4,8 @@ import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { type ReactNode } from "react";
 
-import { Footer, Header } from "@/components/layout";
-
+import { Footer } from "./_features/Footer";
+import { Header } from "./_features/Header";
 import { CustomQueryClientProvider } from "./_providers";
 
 const geistSans = Geist({
