@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Separator } from "@/components/primitive";
 
+import { UserMenu } from "./UserMenu.client";
+
 export function Header() {
   return (
     <header className="bg-background">
@@ -9,14 +11,17 @@ export function Header() {
         <Link href="/" className="text-xl font-bold tracking-tight">
           Media
         </Link>
-        <nav className="flex gap-6">
-          <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
-            ホーム
-          </Link>
-          <Link href="/posts" className="text-sm text-muted-foreground hover:text-foreground">
-            記事一覧
-          </Link>
-        </nav>
+        <div className="flex items-center gap-6">
+          <nav className="flex gap-6">
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
+              ホーム
+            </Link>
+            <Link href="/posts" className="text-sm text-muted-foreground hover:text-foreground">
+              記事一覧
+            </Link>
+          </nav>
+          <UserMenu />
+        </div>
       </div>
       <Separator />
     </header>
