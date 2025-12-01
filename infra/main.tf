@@ -1,85 +1,92 @@
 terraform {
-  required_version = ">= 1.14.0"
+  required_version = ">= 1.0.0"
 
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 6.0"
+    vercel = {
+      source  = "vercel/vercel"
+      version = "~> 2.0"
     }
   }
 }
 
-provider "aws" {
-  profile = var.aws_profile
-  region  = var.aws_region
+provider "vercel" {
+  api_token = var.vercel_api_token
+  team      = var.vercel_team_id
 }
 
-# S3バケット
-resource "aws_s3_bucket" "static_site" {
-  bucket = var.bucket_name
+# Vercel Project
+resource "vercel_project" "main" {
+  name      = var.project_name
+  framework = "nextjs"
 
-  tags = {
-    Name        = var.bucket_name
-    Environment = var.environment
+  git_repository = {
+    type = "github"
+    repo = var.github_repository
   }
-}
 
-# バケット所有権の設定
-resource "aws_s3_bucket_ownership_controls" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
+  build_command    = "pnpm build"
+  install_command  = "pnpm install"
+  output_directory = ".next"
 
-  rule {
-    object_ownership = "BucketOwnerEnforced"
-  }
-}
-
-# パブリックアクセスを完全にブロック
-resource "aws_s3_bucket_public_access_block" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
-
-# サーバーサイド暗号化設定
-resource "aws_s3_bucket_server_side_encryption_configuration" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-
-# バケットポリシー（CloudFrontからのアクセスのみ許可）
-resource "aws_s3_bucket_policy" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
-
-  depends_on = [
-    aws_s3_bucket_public_access_block.static_site,
-    aws_cloudfront_distribution.static_site,
+  environment = [
+    # Public
+    {
+      key    = "NEXT_PUBLIC_APP_URL"
+      value  = var.app_url
+      target = ["production", "preview", "development"]
+    },
+    # microCMS
+    {
+      key    = "MICROCMS_API_KEY"
+      value  = var.microcms_api_key
+      target = ["production", "preview", "development"]
+    },
+    # Better Auth
+    {
+      key    = "BETTER_AUTH_SECRET"
+      value  = var.better_auth_secret
+      target = ["production", "preview", "development"]
+    },
+    {
+      key    = "BETTER_AUTH_URL"
+      value  = var.app_url
+      target = ["production", "preview", "development"]
+    },
+    # Database (Neon)
+    {
+      key    = "DATABASE_URL"
+      value  = var.database_url
+      target = ["production", "preview", "development"]
+    },
+    # Google OAuth
+    {
+      key    = "GOOGLE_CLIENT_ID"
+      value  = var.google_client_id
+      target = ["production", "preview", "development"]
+    },
+    {
+      key    = "GOOGLE_CLIENT_SECRET"
+      value  = var.google_client_secret
+      target = ["production", "preview", "development"]
+    },
+    # Passkey
+    {
+      key    = "PASSKEY_RP_ID"
+      value  = var.passkey_rp_id
+      target = ["production", "preview", "development"]
+    },
+    {
+      key    = "PASSKEY_RP_NAME"
+      value  = var.passkey_rp_name
+      target = ["production", "preview", "development"]
+    },
   ]
+}
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid    = "AllowCloudFrontServicePrincipal"
-        Effect = "Allow"
-        Principal = {
-          Service = "cloudfront.amazonaws.com"
-        }
-        Action   = "s3:GetObject"
-        Resource = "${aws_s3_bucket.static_site.arn}/*"
-        Condition = {
-          StringEquals = {
-            "AWS:SourceArn" = aws_cloudfront_distribution.static_site.arn
-          }
-        }
-      }
-    ]
-  })
+# Production Domain (optional)
+resource "vercel_project_domain" "main" {
+  count = var.custom_domain != "" ? 1 : 0
+
+  project_id = vercel_project.main.id
+  domain     = var.custom_domain
 }

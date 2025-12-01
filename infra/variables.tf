@@ -1,29 +1,21 @@
-variable "aws_profile" {
-  description = "AWSプロファイル"
+# ====================
+# Vercel
+# ====================
+variable "vercel_api_token" {
+  description = "Vercel API Token"
   type        = string
-  default     = "default"
+  sensitive   = true
 }
 
-variable "aws_region" {
-  description = "AWSリージョン"
+variable "vercel_team_id" {
+  description = "Vercel Team ID (optional, for team projects)"
   type        = string
-  default     = "ap-northeast-1"
+  default     = null
 }
 
 variable "project_name" {
-  description = "プロジェクト名（リソース命名に使用）"
+  description = "プロジェクト名"
   type        = string
-}
-
-variable "bucket_name" {
-  description = "S3バケット名"
-  type        = string
-}
-
-variable "environment" {
-  description = "環境名（dev, staging, prod など）"
-  type        = string
-  default     = "dev"
 }
 
 variable "github_repository" {
@@ -31,14 +23,70 @@ variable "github_repository" {
   type        = string
 }
 
-variable "create_oidc_provider" {
-  description = "OIDC Providerを新規作成するかどうか（既に存在する場合はfalse）"
-  type        = bool
-  default     = true
+variable "app_url" {
+  description = "アプリケーションURL（本番環境）"
+  type        = string
+  default     = ""
 }
 
-variable "cloudfront_price_class" {
-  description = "CloudFrontのプライスクラス"
+variable "custom_domain" {
+  description = "カスタムドメイン（オプション）"
   type        = string
-  default     = "PriceClass_200" # アジア・北米・欧州
+  default     = ""
+}
+
+# ====================
+# microCMS
+# ====================
+variable "microcms_api_key" {
+  description = "microCMS API Key"
+  type        = string
+  sensitive   = true
+}
+
+# ====================
+# Better Auth
+# ====================
+variable "better_auth_secret" {
+  description = "Better Auth Secret (openssl rand -base64 32 で生成)"
+  type        = string
+  sensitive   = true
+}
+
+# ====================
+# Database (Neon)
+# ====================
+variable "database_url" {
+  description = "Neon PostgreSQL 接続文字列"
+  type        = string
+  sensitive   = true
+}
+
+# ====================
+# Google OAuth
+# ====================
+variable "google_client_id" {
+  description = "Google OAuth Client ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "google_client_secret" {
+  description = "Google OAuth Client Secret"
+  type        = string
+  sensitive   = true
+}
+
+# ====================
+# Passkey
+# ====================
+variable "passkey_rp_id" {
+  description = "Passkey Relying Party ID (ドメイン名)"
+  type        = string
+}
+
+variable "passkey_rp_name" {
+  description = "Passkey Relying Party Name (表示名)"
+  type        = string
+  default     = "Media"
 }
