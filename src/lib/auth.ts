@@ -5,6 +5,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [process.env.BETTER_AUTH_URL!],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -21,7 +23,7 @@ export const auth = betterAuth({
     passkey({
       rpID: process.env.PASSKEY_RP_ID!,
       rpName: process.env.PASSKEY_RP_NAME!,
-      origin: process.env.NODE_ENV === "production" ? process.env.BETTER_AUTH_URL! : "http://localhost:3000",
+      origin: process.env.BETTER_AUTH_URL!,
     }),
   ],
 });
