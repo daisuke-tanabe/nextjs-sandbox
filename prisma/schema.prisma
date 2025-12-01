@@ -73,12 +73,14 @@ model Passkey {
   id             String   @id @default(cuid())
   name           String?
   publicKey      String
+  credentialID   String   @unique
   userId         String
   webauthnUserID String
   counter        Int
   deviceType     String
   backedUp       Boolean
   transports     String?
+  aaguid         String?
   createdAt      DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
