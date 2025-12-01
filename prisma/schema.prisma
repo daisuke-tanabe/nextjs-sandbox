@@ -18,7 +18,7 @@ model User {
 
   sessions   Session[]
   accounts   Account[]
-  passkeys   Passkey[]
+  passkeys   passkey[]
 
   @@map("users")
 }
@@ -69,21 +69,19 @@ model Verification {
   @@map("verifications")
 }
 
-model Passkey {
+model passkey {
   id             String   @id @default(cuid())
   name           String?
   publicKey      String
-  credentialID   String   @unique @map("credential_id")
-  userId         String   @map("user_id")
-  webauthnUserID String   @map("webauthn_user_id")
+  credentialID   String   @unique
+  userId         String
+  webauthnUserID String?
   counter        Int
-  deviceType     String   @map("device_type")
-  backedUp       Boolean  @map("backed_up")
+  deviceType     String
+  backedUp       Boolean
   transports     String?
   aaguid         String?
-  createdAt      DateTime @default(now()) @map("created_at")
+  createdAt      DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("passkey")
 }
