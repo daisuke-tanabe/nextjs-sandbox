@@ -53,3 +53,6 @@ next-env.d.ts
 *.tfvars
 !terraform.tfvars.example
 .terraform.lock.hcl
+
+# mcp
+.mcp.json
