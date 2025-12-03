@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { AuthForm } from "../_features/AuthForm.client";
+import { AuthForm } from "../_features/AuthForm";
 
 export const metadata: Metadata = {
   title: "ログイン | Media",
