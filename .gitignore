@@ -56,4 +56,6 @@ next-env.d.ts
 
 # mcp
 .mcp.json
-/src/generated/prisma
+
+# generated directory
+__generated__/
