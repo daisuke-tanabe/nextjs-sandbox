@@ -1,9 +1,5 @@
 # nextjs-sandbox
 
-## docs
-
-- docs @/docs/\*_/_.md
-
 ## terraform
 
 ```
