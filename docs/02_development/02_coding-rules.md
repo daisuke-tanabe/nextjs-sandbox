@@ -4,7 +4,7 @@
 
 ## 変数
 
-- **必ず** `const` を**最優先で使うこと**。は条件付き代入やループでの再代入が必要な場合は `let`を使用してもよい。
+- **必ず** `const` を**最優先で使うこと**。条件付き代入やループでの再代入が必要な場合は `let` を使用してもよい。
 
 ## 反復処理
 
@@ -33,59 +33,89 @@
 
 ## React
 
-### パフォーマンス最適化フック（`useMemo` / `useCallback`）
+### `useMemo`
 
 #### 原則
 
-- **`useMemo` と `useCallback` は原則禁止とする。**
-- 理由：
-  - 適切に使わないとバグ（stale closure等）の温床になる
-  - 効果が不明確なまま乱用すると逆にパフォーマンス低下の原因になる
-  - 可読性・保守性を下げる
-
-#### 例外的に使用を許可する条件
-
-1. パフォーマンス測定（プロファイリング）により、関数や計算が**実際のボトルネック**であることを確認している
-2. 最適化の効果を**定量的に測定**し、改善が確認できている
-3. コードレビューで**妥当性が承認**されている
-
-#### 優先すべき基本的な最適化
-
-- コンポーネントの適切な分割
-- 不要な再レンダリングの原因を取り除く
-- 重い処理を可能な限りサーバーサイドに移動
-- `React.memo` の適切な使用（こちらも慎重に検討）
-
-#### 使用しないケース
-
-- 小さなイベントハンドラを内部で使うだけ
-- propsで渡さない関数やオブジェクト
-- 再レンダーを気にして安易に包むだけ
-- 計算コストが軽い処理
-
-```tsx
-// 非推奨
-const handleClick = useCallback(() => setCount(count + 1), [count]);
-```
+- **`useMemo` はパフォーマンス最適化目的でのみ使用する**
+- 計算コストが高い処理をキャッシュする場合に限定
+- **使用前にパフォーマンス計測を行い、効果の妥当性を確認すること**
 
 #### 使用してよいケース
 
-- 子コンポーネントに渡す関数で、子が `React.memo` されており、かつ再レンダーが問題になる場合
-- 高コストな計算結果をキャッシュして表示する場合
-- useEffectの依存配列に関数やオブジェクトを渡す必要がある場合
-- 上記で必ずパフォーマンス測定により改善が確認されていること
-
 ```tsx
-// 推奨（条件を満たす場合のみ）
-const expensiveValue = useMemo(() => computeHeavyData(data), [data]);
+// OK: 高コストな計算結果をキャッシュ
+const sortedItems = useMemo(() => {
+  return items.sort((a, b) => expensiveCompare(a, b));
+}, [items]);
 
-const memoizedFn = useCallback(() => {
-  onChildUpdate(expensiveValue);
-}, [onChildUpdate, expensiveValue]);
+// OK: 大量データのフィルタリング・変換
+const filteredData = useMemo(() => {
+  return largeDataset.filter((item) => item.category === category);
+}, [largeDataset, category]);
 ```
 
-#### 注意点
+#### 使用しないケース
 
-- stateに依存する関数を無理に `useCallback` で包むと**stale closureバグ**が起きやすい
-- 乱用は可読性・保守性を下げるだけでなく、パフォーマンス低下の原因にもなる
-- 本当に必要な場面のみ、**測定・レビューを経て使用**する
+```tsx
+// NG: 計算コストが軽い処理
+const fullName = useMemo(() => `${firstName} ${lastName}`, [firstName, lastName]);
+
+// NG: 単純なオブジェクト生成
+const style = useMemo(() => ({ color: "red" }), []);
+```
+
+#### 却下されるケース
+
+- **「useMemo を使わないと不具合になる」という理由での使用は却下**
+- そのような状況はコンポーネント設計やデータフローに問題がある
+- useMemo で回避するのではなく、根本原因を修正すること
+
+### コールバック関数の設計
+
+#### 原則
+
+- **内部実装の詳細を子コンポーネントに渡さない**
+- 子コンポーネントには「何が起きたか」を通知する具体的なコールバックを渡す
+
+#### 問題のあるパターン
+
+```tsx
+// NG: 内部のセッターや操作関数を直接渡す
+<ChildComponent setValue={setValue} />
+<ChildComponent dispatch={dispatch} />
+<ChildComponent setItems={setItems} />
+```
+
+問題点：
+
+- 子コンポーネントが「何でもできる」状態になる
+- 意図しない操作のリスク
+- 親の内部実装に依存してしまう
+
+#### 推奨パターン
+
+```tsx
+// OK: 具体的な操作をコールバックで渡す
+<ChildComponent
+  onSelect={(item) => {
+    setValue('selectedItem', item);
+  }}
+/>
+
+<ChildComponent
+  onAdd={(newItem) => {
+    setItems((prev) => [...prev, newItem]);
+  }}
+  onRemove={(id) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  }}
+/>
+```
+
+メリット：
+
+- 子コンポーネントは「イベントが起きたら通知する」責務のみ
+- 親の状態管理方法（useState、useReducer、フォームライブラリ等）を意識しない
+- 単一責任・関心の分離が保たれる
+- テストしやすい
