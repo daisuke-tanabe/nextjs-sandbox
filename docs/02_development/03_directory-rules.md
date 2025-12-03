@@ -61,30 +61,64 @@ UIの構造や体験を組み立てる役割を担う。
 - サーバーコンポーネント: `*.tsx`
 - クライアントコンポーネント: `*.client.tsx`
 
-#### バレルファイルの禁止
+#### ディレクトリ構成ルール
 
-`_features/` 内では `index.ts` を作成しない。
-サーバーコンポーネントとクライアントコンポーネントを同一のバレルファイルから export すると Next.js でエラーが発生するため。
+feature が複数ファイルで構成される場合は、必ずディレクトリにまとめる。
+`_features/` 直下にファイルをフラットに並べてはならない。
+
+```
+# NG: _features/ 直下にフラットに配置
+_features/
+├── Header.tsx
+├── UserMenu.client.tsx   # Header に属するファイル
+└── Footer.tsx
+
+# OK: feature ごとにディレクトリにまとめる
+_features/
+├── Header/
+│   ├── Header.tsx
+│   ├── UserMenu.client.tsx
+│   └── index.ts
+└── Footer/
+    ├── Footer.tsx
+    └── index.ts
+```
+
+#### バレルファイル（index.ts）
+
+feature ディレクトリ内の `index.ts` はサーバーコンポーネントのみを export する。
+クライアントコンポーネントは親となるサーバーコンポーネント内で直接 import する。
+
+```ts
+// Header/index.ts
+export { Header } from "./Header";
+```
 
 ### 構成例
 
 ```
 app/
 ├── _features/                          # ルートの layout.tsx, page.tsx 専用
-│   ├── Header.tsx
-│   └── Footer.tsx
+│   ├── Header/
+│   │   ├── Header.tsx
+│   │   ├── UserMenu.client.tsx
+│   │   └── index.ts
+│   └── Footer/
+│       ├── Footer.tsx
+│       └── index.ts
 ├── layout.tsx
 ├── page.tsx
-└── (authenticated)/
-    ├── _components/                    # 当該グループ内で再利用するコンポーネント
-    ├── _features/                      # layout.tsx, page.tsx 専用
+└── hoge/
+    ├── _components/                    # hoge ディレクトリ内で利用可能
+    ├── _features/                      # hoge ディレクトリ内で利用可能
     ├── layout.tsx
     ├── page.tsx
-    └── posts/
-        ├── _features/                  # posts セグメント専用
-        │   └── PostList/
-        │       ├── PostList.tsx
-        │       └── PostList.client.tsx
+    └── piyo/
+        ├── _features/                  # piyo ディレクトリ内で利用可能
+        │   └── Example/
+        │       ├── Example.tsx
+        │       ├── Example.client.tsx
+        │       └── index.ts
         └── page.tsx
 ```
 
@@ -96,16 +130,15 @@ app/
 _features/
 └── Example/
     ├── Example.tsx          # サーバーコンポーネント（データ取得・流し込み）
-    └── Example.client.tsx   # クライアントコンポーネント（インタラクション）
+    ├── Example.client.tsx   # クライアントコンポーネント（インタラクション）
+    └── index.ts             # Example のみ export
 ```
 
-データの流し込みが不要な場合は単一ファイルで構成してよい。
-ファイル数が少ない場合はディレクトリを作成せずフラットに配置してもよい。
+データの流し込みが不要で単一ファイルで完結する場合も、ディレクトリにまとめる。
 
 ```
 _features/
-├── Hoge.tsx
-├── Hoge.client.tsx
-├── Piyo.tsx
-└── Piyo.client.tsx
+└── SimpleFeature/
+    ├── SimpleFeature.tsx
+    └── index.ts
 ```
