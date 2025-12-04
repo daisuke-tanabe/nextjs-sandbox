@@ -20,6 +20,10 @@ src 配下のコンポーネントに適用する。
 
 ## src/components
 
+アプリ全体で再利用するコンポーネントを配置する。
+
+**原則**: 最初から `src/components` に配置しない。まず `app/**/_components` でスコープ内の再利用を検証し、複数スコープで必要になった時点で昇格させる。
+
 ### primitives
 
 - 再利用性の高い原始的なコンポーネントを配置する
@@ -63,6 +67,21 @@ src 配下のコンポーネントに適用する。
 - グローバルステートの変更
 - データ処理・マッピングロジック
 - サーバーコンポーネント（RSC）としての実装
+
+### 構成例
+
+```
+src/components/
+├── primitives/
+│   ├── Button.tsx
+│   ├── Card.tsx
+│   ├── Input.tsx
+│   └── index.ts
+└── patterns/
+    ├── SearchForm.tsx
+    ├── DataTable.tsx
+    └── index.ts
+```
 
 ## app ディレクトリ
 
