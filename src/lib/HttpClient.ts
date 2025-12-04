@@ -22,7 +22,7 @@ export class HttpClient {
       method: "GET",
       ...this.mergeOptions(options),
     });
-    if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
+    if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
     return res.json() as Promise<Result>;
   }
 
@@ -34,7 +34,7 @@ export class HttpClient {
       headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
+    if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
     return res.json() as Promise<Result>;
   }
 
@@ -46,7 +46,7 @@ export class HttpClient {
       headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
+    if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
     return res.json() as Promise<Result>;
   }
 
@@ -58,7 +58,7 @@ export class HttpClient {
       headers: { "Content-Type": "application/json", ...merged.headers },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
+    if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
     return res.json() as Promise<Result>;
   }
 
@@ -67,7 +67,7 @@ export class HttpClient {
       method: "DELETE",
       ...this.mergeOptions(options),
     });
-    if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
+    if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
     return res.json() as Promise<Result>;
   }
 }
