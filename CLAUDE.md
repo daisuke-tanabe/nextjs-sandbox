@@ -18,3 +18,4 @@ pnpm lint-fix      # ESLint 自動修正
 @docs/02_development/01_coding-guidelines.md
 @docs/02_development/02_coding-rules.md
 @docs/02_development/03_structure-rules.md
+@docs/02_development/04_state-management-rules.md
