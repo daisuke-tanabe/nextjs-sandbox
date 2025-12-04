@@ -17,4 +17,4 @@ pnpm lint-fix      # ESLint 自動修正
 
 @docs/02_development/01_coding-guidelines.md
 @docs/02_development/02_coding-rules.md
-@docs/02_development/03_directory-rules.md
+@docs/02_development/03_structure-rules.md
