@@ -1,8 +1,8 @@
 "use client";
 
-export { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-export { Button, buttonVariants } from "./button";
-export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card";
+export { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
+export { Button, buttonVariants } from "./Button";
+export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./Card";
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -19,7 +19,7 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
-export { Input } from "./input";
-export { Label } from "./label";
-export { Separator } from "./separator";
+} from "./DropdownMenu";
+export { Input } from "./Input";
+export { Label } from "./Label";
+export { Separator } from "./Separator";

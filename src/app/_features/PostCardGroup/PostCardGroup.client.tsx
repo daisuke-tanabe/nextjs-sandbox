@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/primitive";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/primitives";
 import { type Post } from "@/types";
 
 type Props = {

@@ -12,7 +12,7 @@ import {
   CardTitle,
   Input,
   Label,
-} from "@/components/primitive";
+} from "@/components/primitives";
 import { authClient, signIn, signUp } from "@/lib/auth-client";
 
 type AuthFormProps = {

@@ -1,4 +1,4 @@
-import { Separator } from "@/components/primitive";
+import { Separator } from "@/components/primitives";
 
 export function Footer() {
   return (

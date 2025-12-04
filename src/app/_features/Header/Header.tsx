@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Separator } from "@/components/primitive";
+import { Separator } from "@/components/primitives";
 
 import { UserMenu } from "./UserMenu.client";
 

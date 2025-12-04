@@ -15,7 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/primitive";
+} from "@/components/primitives";
 import { authClient, signOut, useSession } from "@/lib/auth-client";
 
 export function UserMenu() {
