@@ -4,12 +4,12 @@
 
 ## 'use client' 早見表
 
-| 層           | 'use client'       |
-| ------------ | ------------------ |
-| primitives   | 必須               |
-| patterns     | 必須               |
-| \_components | 必須               |
-| \_features   | server/client 分離 |
+| 層           | 'use client'     |
+| ------------ | ---------------- |
+| primitives   | 必須             |
+| patterns     | 必須             |
+| \_components | 必須             |
+| \_features   | 状況に応じて分離 |
 
 ## 命名規則
 
@@ -91,10 +91,15 @@ src 配下のコンポーネントに適用する。
 #### ディレクトリ構成
 
 - feature は必ずディレクトリにまとめる（`_features/` 直下にフラット配置禁止）
-- `index.ts` はサーバーコンポーネントのみを export する
-- クライアントコンポーネントは親サーバーコンポーネント内で直接 import する
-- データ取得が必要な場合: `*.tsx`（server）+ `*.client.tsx`（client）に分離
 - 単一ファイルで完結する場合も、ディレクトリにまとめる
+- `index.ts` は feature のエントリーポイントを export する
+  - サーバーコンポーネントがある場合: サーバーコンポーネントを export
+  - 純粋なクライアント機能の場合: `*.client.tsx` を export
+
+#### サーバー/クライアント分離
+
+- データ取得が必要な場合: `*.tsx`（server）+ `*.client.tsx`（client）に分離
+- クライアントコンポーネントは親サーバーコンポーネント内で直接 import する
 
 ### 構成例
 
