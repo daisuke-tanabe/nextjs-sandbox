@@ -86,3 +86,60 @@ API から取得するデータ。TanStack Query で管理する。
 
 - 確認ダイアログやフォームなど一時的な UI 状態
 - 共有する意味のないモーダル
+
+## 俯瞰図
+
+```mermaid
+flowchart TB
+    subgraph Client["Client Component"]
+        subgraph UIState["UI State"]
+            Local["useState / useReducer<br/>モーダル、タブ、フォーカス"]
+        end
+
+        subgraph GlobalUI["Global UI State"]
+            Zustand["Zustand / Context<br/>認証、テーマ、トースト"]
+        end
+
+        subgraph ServerState["Server State"]
+            TanStack["TanStack Query<br/>APIデータのキャッシュ"]
+        end
+
+        subgraph URLState["URL State"]
+            nuqs["nuqs<br/>検索、フィルタ、ページング"]
+        end
+    end
+
+    subgraph Server["Server"]
+        SA["Server Actions"]
+        API["外部API"]
+        DB["Database"]
+    end
+
+    subgraph Browser["ブラウザ"]
+        URL["URL"]
+    end
+
+    Local -->|コンポーネント内で完結| Local
+    Zustand -->|アプリ横断で共有| Zustand
+    TanStack -->|fetch / キャッシュ| API
+    TanStack -->|invalidate| SA
+    SA -->|更新| DB
+    nuqs <-->|同期| URL
+    URL -->|共有可能| Browser
+```
+
+## 選択フロー
+
+```mermaid
+flowchart TD
+    Start["状態を管理したい"] --> Q1{"共有可能にしたい？<br/>検索・フィルタ等"}
+
+    Q1 -->|Yes| URLState["URL State<br/>(nuqs)"]
+    Q1 -->|No| Q2{"サーバーデータ？"}
+
+    Q2 -->|Yes| ServerState["Server State<br/>(TanStack Query)"]
+    Q2 -->|No| Q3{"アプリ横断で必要？<br/>認証・テーマ等"}
+
+    Q3 -->|Yes| GlobalUI["Global UI State<br/>(Zustand / Context)"]
+    Q3 -->|No| UIState["UI State<br/>(useState)"]
+```
