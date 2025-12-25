@@ -3,12 +3,15 @@ import { type CmsGetPostsResult } from "@/types";
 
 import { PostCardGroup as PostCardGroupClient } from "./PostCardGroup.client";
 
+const LIMIT = 10;
+
 type Props = {
-  limit?: number;
+  page?: number;
 };
 
-export async function PostCardGroup({ limit = 5 }: Props) {
-  const { contents: posts } = await cmsApi.get<CmsGetPostsResult>(`/posts?limit=${limit}`);
+export async function PostCardGroup({ page = 1 }: Props) {
+  const offset = (page - 1) * LIMIT;
+  const { contents: posts, totalCount } = await cmsApi.get<CmsGetPostsResult>(`/posts?limit=${LIMIT}&offset=${offset}`);
 
-  return <PostCardGroupClient posts={posts} />;
+  return <PostCardGroupClient posts={posts} totalCount={totalCount} page={page} />;
 }

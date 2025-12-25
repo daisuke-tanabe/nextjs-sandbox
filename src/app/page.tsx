@@ -2,7 +2,14 @@ import Link from "next/link";
 
 import { PostCardGroup } from "./_features/PostCardGroup";
 
-export default function HomePage() {
+type Props = {
+  searchParams: Promise<{ page?: string }>;
+};
+
+export default async function HomePage({ searchParams }: Props) {
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <section className="mb-16 text-center">
@@ -22,7 +29,7 @@ export default function HomePage() {
             すべての記事を見る →
           </Link>
         </div>
-        <PostCardGroup limit={5} />
+        <PostCardGroup page={currentPage} />
       </section>
     </div>
   );

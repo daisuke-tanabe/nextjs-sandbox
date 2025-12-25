@@ -2,15 +2,32 @@
 
 import Link from "next/link";
 
-import { Separator } from "@/components/primitives";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Separator,
+} from "@/components/primitives";
 import { type Post } from "@/types";
+
+const LIMIT = 10;
 
 type Props = {
   posts: Post[];
   totalCount: number;
+  page: number;
 };
 
-export function PostList({ posts, totalCount }: Props) {
+function getPageHref(pageNum: number): string {
+  return pageNum === 1 ? "/posts" : `/posts?page=${pageNum}`;
+}
+
+export function PostList({ posts, totalCount, page }: Props) {
+  const totalPages = Math.ceil(totalCount / LIMIT);
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <header className="mb-12">
@@ -37,6 +54,36 @@ export function PostList({ posts, totalCount }: Props) {
           </article>
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <Pagination className="mt-12">
+          <PaginationContent>
+            <PaginationItem>
+              <Link href={getPageHref(page - 1)} aria-disabled={page <= 1} tabIndex={page <= 1 ? -1 : undefined}>
+                <PaginationPrevious className={page <= 1 ? "pointer-events-none opacity-50" : ""} />
+              </Link>
+            </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              <PaginationItem key={pageNum}>
+                <Link href={getPageHref(pageNum)}>
+                  <PaginationLink isActive={pageNum === page}>{pageNum}</PaginationLink>
+                </Link>
+              </PaginationItem>
+            ))}
+
+            <PaginationItem>
+              <Link
+                href={getPageHref(page + 1)}
+                aria-disabled={page >= totalPages}
+                tabIndex={page >= totalPages ? -1 : undefined}
+              >
+                <PaginationNext className={page >= totalPages ? "pointer-events-none opacity-50" : ""} />
+              </Link>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }

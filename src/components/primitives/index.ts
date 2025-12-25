@@ -22,4 +22,13 @@ export {
 } from "./DropdownMenu";
 export { Input } from "./Input";
 export { Label } from "./Label";
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./Pagination";
 export { Separator } from "./Separator";

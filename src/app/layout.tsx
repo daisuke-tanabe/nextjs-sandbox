@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type ReactNode } from "react";
 
 import { Footer } from "./_features/Footer";
@@ -27,11 +28,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}>
-        <CustomQueryClientProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CustomQueryClientProvider>
+        <NuqsAdapter>
+          <CustomQueryClientProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CustomQueryClientProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
