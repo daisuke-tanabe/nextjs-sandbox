@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { AuthForm } from "../_features/AuthForm";
+import { LoginForm } from "../_features/AuthForm";
 
 export const metadata: Metadata = {
   title: "ログイン | Media",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <AuthForm mode="login" />
+      <LoginForm />
     </div>
   );
 }

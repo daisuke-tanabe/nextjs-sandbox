@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@better-auth/passkey": "1.4.4",
+    "@hookform/resolvers": "5.2.2",
     "@prisma/adapter-pg": "7.0.1",
     "@prisma/client": "7.0.1",
     "@radix-ui/react-avatar": "1.1.11",
@@ -36,8 +37,10 @@
     "prisma": "7.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "7.69.0",
     "server-only": "0.0.1",
-    "tailwind-merge": "3.4.0"
+    "tailwind-merge": "3.4.0",
+    "zod": "4.2.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

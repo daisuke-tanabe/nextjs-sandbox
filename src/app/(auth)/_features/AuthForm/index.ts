@@ -1,1 +1,2 @@
-export { AuthForm } from "./AuthForm.client";
+export { LoginForm } from "./LoginForm.client";
+export { SignupForm } from "./SignupForm.client";
