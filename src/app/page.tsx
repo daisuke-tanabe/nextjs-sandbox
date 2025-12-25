@@ -1,14 +1,11 @@
 import Link from "next/link";
 
+import { type SearchParams, searchParamsCache } from "@/lib/searchParams";
+
 import { PostCardGroup } from "./_features/PostCardGroup";
 
-type Props = {
-  searchParams: Promise<{ page?: string }>;
-};
-
-export default async function HomePage({ searchParams }: Props) {
-  const { page } = await searchParams;
-  const currentPage = Number(page) || 1;
+export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const { page } = await searchParamsCache.parse(searchParams);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -29,7 +26,7 @@ export default async function HomePage({ searchParams }: Props) {
             すべての記事を見る →
           </Link>
         </div>
-        <PostCardGroup page={currentPage} />
+        <PostCardGroup page={page} />
       </section>
     </div>
   );

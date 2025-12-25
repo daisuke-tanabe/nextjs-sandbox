@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 
+import { type SearchParams, searchParamsCache } from "@/lib/searchParams";
+
 import { PostList } from "./_features/PostList";
 
 export const metadata: Metadata = {
@@ -7,13 +9,8 @@ export const metadata: Metadata = {
   description: "すべての記事を一覧で表示します",
 };
 
-type Props = {
-  searchParams: Promise<{ page?: string }>;
-};
+export default async function PostsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const { page } = await searchParamsCache.parse(searchParams);
 
-export default async function PostsPage({ searchParams }: Props) {
-  const { page } = await searchParams;
-  const currentPage = Number(page) || 1;
-
-  return <PostList page={currentPage} />;
+  return <PostList page={page} />;
 }
