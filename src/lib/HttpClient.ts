@@ -23,7 +23,7 @@ export class HttpClient {
       ...this.mergeOptions(options),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
-    return res.json() as Promise<Result>;
+    return await (res.json() as Promise<Result>);
   }
 
   async post<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
@@ -35,7 +35,7 @@ export class HttpClient {
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
-    return res.json() as Promise<Result>;
+    return await (res.json() as Promise<Result>);
   }
 
   async put<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
@@ -47,7 +47,7 @@ export class HttpClient {
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
-    return res.json() as Promise<Result>;
+    return await (res.json() as Promise<Result>);
   }
 
   async patch<Result, Body = unknown>(path: string, body: Body, options?: Options): Promise<Result> {
@@ -59,7 +59,7 @@ export class HttpClient {
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
-    return res.json() as Promise<Result>;
+    return await (res.json() as Promise<Result>);
   }
 
   async delete<Result>(path: string, options?: Options): Promise<Result> {
@@ -68,6 +68,6 @@ export class HttpClient {
       ...this.mergeOptions(options),
     });
     if (!res.ok) throw new Error(`Fetch error: ${res.status} ${path}`);
-    return res.json() as Promise<Result>;
+    return await (res.json() as Promise<Result>);
   }
 }
