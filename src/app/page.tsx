@@ -1,33 +1,20 @@
-import Link from "next/link";
-
 import { type SearchParams, searchParamsCache } from "@/lib/searchParams";
 
-import { PostCardGroup } from "./_features/PostCardGroup";
+import { PostGrid } from "./_features/PostGrid";
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const { page } = await searchParamsCache.parse(searchParams);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
-      <section className="mb-16 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Media</h1>
-        <p className="text-lg text-neutral-600 dark:text-neutral-400">
-          最新のテクノロジーとデザインに関する記事をお届けします
-        </p>
-      </section>
+    <main className="container mx-auto max-w-4xl px-4 py-8 md:px-6 lg:px-8">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight mb-2">Today&#39;s News Summary</h1>
+        <p className="text-md text-muted-foreground">最新のテクノロジーとデザインに関する記事をお届けします</p>
+      </div>
 
       <section>
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">最新の記事</h2>
-          <Link
-            href="/posts"
-            className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-          >
-            すべての記事を見る →
-          </Link>
-        </div>
-        <PostCardGroup page={page} />
+        <PostGrid page={page} />
       </section>
-    </div>
+    </main>
   );
 }

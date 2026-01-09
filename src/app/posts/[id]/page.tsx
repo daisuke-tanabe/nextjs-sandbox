@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const post = await cmsApi.get<CmsGetPostResult>(`/posts/${id}`);
     return {
       title: `${post.title} | Media`,
-      description: post.description ?? post.title,
+      description: post.summary ?? post.title,
     };
   } catch {
     return {

@@ -3,10 +3,20 @@
 import Link from "next/link";
 
 import { Separator } from "@/components/primitives";
-import { type Post } from "@/types";
 
 type Props = {
-  post: Post;
+  post: {
+    id: string;
+    title: string;
+    content: string;
+    summary?: string;
+    thumbnail?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    publishedAt: string;
+  };
 };
 
 export function PostDetail({ post }: Props) {
@@ -22,7 +32,7 @@ export function PostDetail({ post }: Props) {
             })}
           </time>
           <h1 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">{post.title}</h1>
-          {post.description && <p className="mt-4 text-lg text-muted-foreground">{post.description}</p>}
+          {post.summary && <p className="mt-4 text-lg text-muted-foreground">{post.summary}</p>}
         </header>
 
         <Separator className="mb-8" />

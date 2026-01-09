@@ -1,13 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import NextLink from "next/link";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -15,12 +10,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/primitives";
-import { type Post } from "@/types";
+
+import { PostCard, type PostCardProps } from "./PostCard";
 
 const LIMIT = 10;
 
-type Props = {
-  posts: Post[];
+export type PostGridClientProps = {
+  posts: PostCardProps[];
   totalCount: number;
   page: number;
 };
@@ -29,28 +25,14 @@ function getPageHref(pageNum: number): string {
   return pageNum === 1 ? "/" : `/?page=${pageNum}`;
 }
 
-export function PostCardGroup({ posts, totalCount, page }: Props) {
+export function PostGridClient({ posts, totalCount, page }: PostGridClientProps) {
   const totalPages = Math.ceil(totalCount / LIMIT);
 
   return (
-    <div className="space-y-8">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
         {posts.map((post) => (
-          <Link key={post.id} href={`/posts/${post.id}`}>
-            <Card className="group h-full transition-colors hover:border-neutral-300 dark:hover:border-neutral-700">
-              <CardHeader className="gap-1">
-                <time className="text-sm text-muted-foreground">
-                  {new Date(post.publishedAt).toLocaleDateString("ja-JP")}
-                </time>
-                <CardTitle className="text-lg group-hover:text-muted-foreground">{post.title}</CardTitle>
-              </CardHeader>
-              {post.description && (
-                <CardContent>
-                  <CardDescription className="line-clamp-2">{post.description}</CardDescription>
-                </CardContent>
-              )}
-            </Card>
-          </Link>
+          <PostCard key={post.id} {...post} />
         ))}
       </div>
 
@@ -58,31 +40,31 @@ export function PostCardGroup({ posts, totalCount, page }: Props) {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <Link href={getPageHref(page - 1)} aria-disabled={page <= 1} tabIndex={page <= 1 ? -1 : undefined}>
+              <NextLink href={getPageHref(page - 1)} aria-disabled={page <= 1} tabIndex={page <= 1 ? -1 : undefined}>
                 <PaginationPrevious className={page <= 1 ? "pointer-events-none opacity-50" : ""} />
-              </Link>
+              </NextLink>
             </PaginationItem>
 
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
               <PaginationItem key={pageNum}>
-                <Link href={getPageHref(pageNum)}>
+                <NextLink href={getPageHref(pageNum)}>
                   <PaginationLink isActive={pageNum === page}>{pageNum}</PaginationLink>
-                </Link>
+                </NextLink>
               </PaginationItem>
             ))}
 
             <PaginationItem>
-              <Link
+              <NextLink
                 href={getPageHref(page + 1)}
                 aria-disabled={page >= totalPages}
                 tabIndex={page >= totalPages ? -1 : undefined}
               >
                 <PaginationNext className={page >= totalPages ? "pointer-events-none opacity-50" : ""} />
-              </Link>
+              </NextLink>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
       )}
-    </div>
+    </>
   );
 }

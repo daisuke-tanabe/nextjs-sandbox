@@ -11,7 +11,7 @@ type CmsMetadata = {
 export type Post = CmsMetadata & {
   title: string;
   content: string;
-  description?: string;
+  summary?: string;
   thumbnail?: {
     url: string;
     width: number;
